@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Puter AI Image Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 40px;
+    }
+    input {
+      width: 300px;
+      padding: 8px;
+      margin: 10px;
+    }
+    button {
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+    img {
+      margin-top: 20px;
+      max-width: 80%;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Puter AI Image Generator</h1>
+  <p>Enter a description and generate an image:</p>
+  
+  <input type="text" id="prompt" placeholder="e.g. A futuristic cityscape at night">
+  <button id="generateBtn">Generate Image</button>
+  
+  <div id="result"></div>
+
+  <!-- Puter SDK -->
+  <script src="https://js.puter.com/v2/"></script>
+  <script>
+    const button = document.getElementById("generateBtn");
+    const resultDiv = document.getElementById("result");
+
+    button.addEventListener("click", async () => {
+      const prompt = document.getElementById("prompt").value.trim();
+      if (!prompt) {
+        alert("Please enter a description first!");
+        return;
+      }
+
+      resultDiv.innerHTML = "Generating image... please wait.";
+
+      try {
+        const imageElement = await puter.ai.txt2img(prompt, { model: "gpt-image-1.5" });
+        resultDiv.innerHTML = ""; // clear text
+        resultDiv.appendChild(imageElement);
+      } catch (error) {
+        console.error(error);
+        resultDiv.innerHTML = "❌ Error generating image. Check console for details.";
+      }
+    });
+  </script>
+</body>
+</html>
